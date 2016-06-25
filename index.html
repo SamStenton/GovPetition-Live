@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Remainians Club</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; text-align: center;}
+      body { font: 13px Helvetica, Arial; }
+    </style>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      var Realnumber = 0000;
+      var lastNumber, timePerVote = 0.5;
+
+      socket.on('votes', function(msg){
+
+          if(Realnumber !== lastNumber)
+          {
+              Realnumber = msg;
+              var number = Realnumber.toLocaleString();
+              $('#votes h1').text(number);
+
+              timePerVote = (Realnumber - lastNumber) / 60;
+
+            //   if (!timePerVote > 0) {
+            //       $('#votesPer h6').text(0);
+            //   } else {
+            //       $('#votesPer h6').text(timePerVote);
+            //   }
+
+
+              lastNumber = Realnumber;
+          }
+
+      });
+
+      var minutes2 = timePerVote / 60, the_interval2 = minutes2 * 60 * 1000;
+      setInterval(function() {
+          Realnumber++;
+          number = Realnumber.toLocaleString();
+
+          $('#votes h1').text(number);
+
+      }, the_interval2);
+    </script>
+
+  </head>
+  <body>
+    <div style="margin-top: 100px" id="votes">
+        <h1>0000</h1>
+    </div>
+
+    <div style="margin-top: 20px; margin-bottom: 200px;" id="votesPer">
+
+    </div>
+
+
+    <a href="https://petition.parliament.uk/petitions/131215">Join the Club</a>
+  </body>
+</html>
