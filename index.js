@@ -61,7 +61,11 @@ function getVotes()
 {
     db.get("SELECT votes FROM remain ORDER BY time DESC LIMIT 1", function(err, row) {
         //Io Emit
-        io.emit('votes', row.votes);
+        if(row)
+        {
+            io.emit('votes', row.votes);
+        }
+
     }).on('error', function(e){
           console.log("Got an error: ", e);
     });
