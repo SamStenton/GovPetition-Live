@@ -63,7 +63,8 @@ function getVotes()
         //Io Emit
         io.emit('votes', row.votes);
     }).on('error', function(e){
-          console.log("Got an error: ", e);;
+          console.log("Got an error: ", e);
+    });
 
 }
 
