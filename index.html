@@ -4,7 +4,7 @@
     <title>Remainians Club</title>
     <meta property="og:title" content="2nd EU Referendum Petition live signature count" />
     <meta property="og:url" content="http://remainians.club" />
-    <meta property="og:image" content="http://remainians.club/ogimage.jpg" />
+    <meta property="og:image" content="http://i.imgur.com/pSknjse.png" />
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; text-align: center;}
       body { font: 13px Helvetica, Arial; }
@@ -15,7 +15,7 @@
     <script>
       var socket = io();
       var Realnumber = 0000;
-      var lastNumber, timePerVote = 100;
+      var lastNumber, timePerVote = 0.5;
 
       socket.on('votes', function(msg){
 
@@ -27,7 +27,7 @@
               var number = Realnumber.toLocaleString();
               $('#votes h1').text(number);
 
-              timePerVote = (Realnumber - lastNumber);
+              timePerVote = (Realnumber - lastNumber) / 60;
               //console.log(Math.round(timePerVote));
             //   if (!timePerVote > 0) {
             //       $('#votesPer h6').text(0);
@@ -41,7 +41,7 @@
 
       });
 
-      var minutes2 = 0.005, the_interval2 = minutes2 * 60 * 1000;
+      var minutes2 = timePerVote / 60, the_interval2 = minutes2 * 60 * 1000;
       setInterval(function() {
           if(Realnumber !== lastNumber)
           {
