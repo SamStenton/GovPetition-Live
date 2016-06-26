@@ -19,14 +19,14 @@ app.get('/', function(req, res){
 });
 
 http.listen(8080, function(){
-  console.log('listening on *:3000');
+  console.log('Running');
 });
 
 db.serialize(function() {
   db.run("CREATE TABLE IF NOT EXISTS remain (votes integer, time datetime)");
 });
 
-var minutes = 0.1, the_interval = minutes * 60 * 1000;
+var minutes = 0.5, the_interval = minutes * 60 * 1000;
 setInterval(function() {
     var url = 'https://petition.parliament.uk/petitions/131215.json';
 
@@ -43,7 +43,7 @@ setInterval(function() {
                 var stmt = db.prepare("INSERT INTO remain VALUES (?, ?)");
 
                 stmt.run(response['data']['attributes']['signature_count'], new Date());
-                console.log(response['data']['attributes']['signature_count']);
+                //console.log(response['data']['attributes']['signature_count']);
                 stmt.finalize();
             });
 
