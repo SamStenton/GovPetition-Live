@@ -74,7 +74,7 @@ function getVotes()
 
 function getData()
 {
-    db.all("SELECT votes, time FROM remain WHERE rowid%1000 = 0 ORDER BY time ASC", function(err, object) {
+    db.all("SELECT votes, time FROM remain WHERE rowid%1500 = 0 ORDER BY time ASC", function(err, object) {
         var votes = [];
         var time = [];
         for( var obj in object ) {
