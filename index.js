@@ -10,6 +10,7 @@ var fs = require('fs');
 
 io.on('connection', function(socket){
     getVotes();
+    getData();
   socket.on('event', function(data){});
   socket.on('disconnect', function(){});
 });
@@ -43,10 +44,9 @@ setInterval(function() {
                 var stmt = db.prepare("INSERT INTO remain VALUES (?, ?)");
 
                 stmt.run(response['data']['attributes']['signature_count'], new Date());
-                console.log(response['data']['attributes']['signature_count']);
+                //console.log(response['data']['attributes']['signature_count']);
                 stmt.finalize();
             });
-
 
         });
 
@@ -70,6 +70,23 @@ function getVotes()
           console.log("Got an error: ", e);
     });
 
+}
+
+function getData()
+{
+    db.all("SELECT votes, time FROM remain WHERE rowid%700 = 0 ORDER BY time DESC LIMIT 1000", function(err, object) {
+        var votes = [];
+        var time = [];
+        for( var obj in object ) {
+            votes.push(object[obj].votes);
+            time.push(new Date(object[obj].time).toISOString().replace(/T/, ' ').replace(/\..+/, ''));
+        }
+
+        io.emit('array', votes, time);
+        //console.log(object);
+    }).on('error', function(e){
+          console.log("Got an error: ", e);
+    });
 }
 
 //db.close();

@@ -6,7 +6,7 @@
       * { margin: 0; padding: 0; box-sizing: border-box; text-align: center;}
       body { font: 13px Helvetica, Arial; }
     </style>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
@@ -15,6 +15,17 @@
           var number = msg.toLocaleString();
           $('#votes h1').text(number);
 
+      });
+
+      socket.on('array', function(votes, time){
+        console.log(votes);
+
+        myChart.data.datasets[0].data = [];
+        myChart.data.datasets[0].data = votes;
+        myChart.data.labels = time;
+        myChart.update();
+       
+        
       });
     </script>
 
@@ -28,7 +39,46 @@
     </div>
 
     <div style="margin-top: 20px; margin-bottom: 200px;" id="votesPer">
-
+    <canvas id="myChart" width="100" height="20"></canvas>
+    <script>
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Time"],
+            datasets: [{
+                label: '# of Votes',
+                data: [234,234],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    </script>
     </div>
 
 
