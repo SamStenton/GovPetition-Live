@@ -11,39 +11,11 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
-      var Realnumber = 0000;
-      var lastNumber, timePerVote = 0.5;
-
       socket.on('votes', function(msg){
-
-          if(Realnumber !== lastNumber)
-          {
-              Realnumber = msg;
-              var number = Realnumber.toLocaleString();
-              $('#votes h1').text(number);
-
-              timePerVote = (Realnumber - lastNumber) / 60;
-
-            //   if (!timePerVote > 0) {
-            //       $('#votesPer h6').text(0);
-            //   } else {
-            //       $('#votesPer h6').text(timePerVote);
-            //   }
-
-
-              lastNumber = Realnumber;
-          }
+          var number = msg.toLocaleString();
+          $('#votes h1').text(number);
 
       });
-
-      // var minutes2 = timePerVote / 60, the_interval2 = minutes2 * 60 * 1000;
-      // setInterval(function() {
-      //     Realnumber++;
-      //     number = Realnumber.toLocaleString();
-
-      //     $('#votes h1').text(number);
-
-      // }, the_interval2);
     </script>
 
   </head>
